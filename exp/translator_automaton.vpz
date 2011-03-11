@@ -2,13 +2,15 @@
 <!DOCTYPE vle_project PUBLIC "-//VLE TEAM//DTD Strict//EN" "http://www.vle-project.org/vle-1.0.0.dtd">
 <vle_project version="1.0.0" date="dim, 26 jui 2009" author="Bruno Bonté">
 <structures>
-<model name="graph" type="coupled" width="718" height="409"  >
+<model name="graph" type="coupled" width="679" height="418"  >
 <submodels>
 <model name="data_collector" type="atomic" conditions="collector,cond_graph" dynamics="collector" observables="observer" x="53" y="113" width="100" height="30" >
 </model>
 <model name="gen_network" type="atomic" conditions="collectors,cond_graph" dynamics="dyn_network" x="238" y="66" width="100" height="30" >
 </model>
-<model name="xRaySample" type="atomic" conditions="cond_graph,xRay_1" dynamics="dyn_xray" observables="xRay" x="239" y="163" width="100" height="30" >
+<model name="passiveCollector" type="atomic" conditions="xRay" dynamics="dyn_passive" observables="passive" x="114" y="259" width="100" height="30" >
+</model>
+<model name="xRaySample" type="atomic" conditions="cond_graph,xRay_1" dynamics="dyn_xray" observables="xRay" x="345" y="165" width="100" height="30" >
 </model>
 <model name="xRayTotal" type="atomic" conditions="cond_graph,xRay" dynamics="dyn_xray" observables="xRay" x="79" y="33" width="100" height="30" >
 </model>
@@ -22,12 +24,13 @@
 <dynamic name="Transmission" library="sir" model="transmission" package="surveillance" type="local"  />
 <dynamic name="collector" library="sir" model="data_collector" package="surveillance" type="local"  />
 <dynamic name="dyn_network" library="graph" model="dyn_graphExecutive" package="surveillance" type="local"  />
+<dynamic name="dyn_passive" library="surveillance" model="passive_collector" package="surveillance" type="local"  />
 <dynamic name="dyn_vertexExecutive" library="graph" model="dyn_vertexExecutive" package="surveillance" type="local"  />
 <dynamic name="dyn_xray" library="surveillance" model="x_ray" package="surveillance" type="local"  />
 </dynamics>
 <classes>
 <class name="InfectedVertex" >
-<model name="vertex" type="coupled" width="709" height="390"  >
+<model name="vertex" type="coupled" width="630" height="310"  >
 <submodels>
 <model name="infection" type="atomic" conditions="infected" dynamics="Infection" observables="infectionState" x="75" y="130" width="100" height="45" >
 <in>
@@ -94,7 +97,7 @@
 <set><string>data_collector</string><string>xRayTotal</string><string>xRaySample</string></set>
 </port>
  <port name="passiveCollectors" >
-<set></set>
+<set><string>passiveCollector</string></set>
 </port>
 </condition>
 <condition name="cond_graph" >
@@ -120,6 +123,9 @@
  <port name="infectiousPeriod" >
 <double>10.000000000000000</double>
 </port>
+ <port name="securedPeriod" >
+<double>3.000000000000000</double>
+</port>
 </condition>
 <condition name="susceptible" >
  <port name="autoInfect" >
@@ -127,6 +133,9 @@
 </port>
  <port name="infectiousPeriod" >
 <double>10.000000000000000</double>
+</port>
+ <port name="securedPeriod" >
+<double>3.000000000000000</double>
 </port>
 </condition>
 <condition name="transmission" >
@@ -194,6 +203,25 @@
 
 </observable>
 
+<observable name="passive" >
+<port name="nbIs" >
+ <attachedview name="analyse" />
+</port>
+
+<port name="nbRs" >
+ <attachedview name="analyse" />
+</port>
+
+<port name="nbSs" >
+ <attachedview name="analyse" />
+</port>
+
+<port name="noPort" >
+ <attachedview name="data_collector_view" />
+</port>
+
+</observable>
+
 <observable name="xRay" >
 <port name="incidence" >
  <attachedview name="analyse" />
@@ -203,9 +231,7 @@
  <attachedview name="analyse" />
 </port>
 
-<port name="xrayview" >
- <attachedview name="data_collector_view" />
-</port>
+<port name="xrayview" />
 
 </observable>
 

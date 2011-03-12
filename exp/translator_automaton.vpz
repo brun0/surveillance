@@ -2,13 +2,13 @@
 <!DOCTYPE vle_project PUBLIC "-//VLE TEAM//DTD Strict//EN" "http://www.vle-project.org/vle-1.0.0.dtd">
 <vle_project version="1.0.0" date="dim, 26 jui 2009" author="Bruno Bonté">
 <structures>
-<model name="graph" type="coupled" width="679" height="418"  >
+<model name="graph" type="coupled" width="466" height="329"  >
 <submodels>
 <model name="data_collector" type="atomic" conditions="collector,cond_graph" dynamics="collector" observables="observer" x="53" y="113" width="100" height="30" >
 </model>
 <model name="gen_network" type="atomic" conditions="collectors,cond_graph" dynamics="dyn_network" x="238" y="66" width="100" height="30" >
 </model>
-<model name="passiveCollector" type="atomic" conditions="xRay" dynamics="dyn_passive" observables="passive" x="114" y="259" width="100" height="30" >
+<model name="passiveCollector" type="atomic" conditions="passiveCollector,xRay" dynamics="dyn_passive" observables="passive" x="114" y="259" width="100" height="30" >
 </model>
 <model name="xRaySample" type="atomic" conditions="cond_graph,xRay_1" dynamics="dyn_xray" observables="xRay" x="345" y="165" width="100" height="30" >
 </model>
@@ -125,6 +125,11 @@
 </port>
  <port name="securedPeriod" >
 <double>3.000000000000000</double>
+</port>
+</condition>
+<condition name="passiveCollector" >
+ <port name="probabilityDeclaration" >
+<double>0.200000000000000</double>
 </port>
 </condition>
 <condition name="susceptible" >
